@@ -36,6 +36,24 @@ function App() {
   //Editar Usuarios
   const [editing, setEditing] = useState(false);
 
+  const[currentUser, setcurrentUser] = useState({
+    id: null, name: '', username: ''
+  })
+
+  const editRow = (user) => {
+    setEditing(true);
+    setcurrentUser({
+      id: user.id, name: user.name, username: user.username
+    })
+  }
+
+  //Actualizar
+  const updateUser = (id, updateUser) => {
+    setEditing(false);
+
+    setUsers(users.map(user => (user.id === id ? updateUser : user)))
+
+  }
 
 
   //Maquetación
@@ -48,7 +66,10 @@ function App() {
             editing ? (
               <div>
                 <h2>Edit user</h2>
-                <EditUserForm />
+                <EditUserForm 
+                  currentUser={currentUser}
+                  updateUser={updateUser}
+                />
               </div>
             ) : (
               <div>
@@ -60,7 +81,11 @@ function App() {
         </div>
         <div className="flex-large">
           <h2>View users</h2>
-          <UserTable users={users} deleteUser={deleteUser} setEditing={setEditing}/>
+          <UserTable 
+          users={users} 
+          deleteUser={deleteUser} 
+          editRow={editRow}
+          />
         </div>
       </div>
     </div>
