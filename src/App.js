@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UserTable from './components/UserTable';
 import AddUserForm from './components/AddUserForm';
+import EditUserForm from './components/EditUserForm';
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
@@ -32,18 +33,34 @@ function App() {
     setUsers(arrayFiltrado)
   }
 
+  //Editar Usuarios
+  const [editing, setEditing] = useState(false);
+
+
+
   //Maquetación
   return (
     <div className="container">
       <h1>CRUD App with Hooks</h1>
       <div className="flex-row">
         <div className="flex-large">
-          <h2>Add user</h2>
-          <AddUserForm addUser={addUser}/>
+          {
+            editing ? (
+              <div>
+                <h2>Edit user</h2>
+                <EditUserForm />
+              </div>
+            ) : (
+              <div>
+              <h2>Add user</h2>
+              <AddUserForm addUser={addUser} />
+              </div>
+            )
+          }
         </div>
         <div className="flex-large">
           <h2>View users</h2>
-          <UserTable users={users} deleteUser={deleteUser}/>
+          <UserTable users={users} deleteUser={deleteUser} setEditing={setEditing}/>
         </div>
       </div>
     </div>
